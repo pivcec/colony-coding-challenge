@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import AvatarPicker from './AvatarPicker';
+import '../css/App.css';
+import SelectedAvatar from './SelectedAvatar';
+import styled from 'styled-components';
 
 const availableAvatars = [
   { src: 'avatar1.png', label: 'Avatar 1', id: 1 },
@@ -13,11 +15,9 @@ const availableAvatars = [
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <AvatarPicker
-          availableAvatars={availableAvatars}
-        />
-      </div>
+      <SelectedAvatar
+        availableAvatars={availableAvatars}
+      />
     );
   }
 }

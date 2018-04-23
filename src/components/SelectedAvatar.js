@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import PopoverAnimation from './PopoverAnimation';
+import Popover from './Popover';
 import avatar1 from '../images/avatar1.png';
 import avatar2 from '../images/avatar2.png';
 import avatar3 from '../images/avatar3.png';
@@ -18,8 +18,15 @@ const avatarImages = {
   6: avatar6,
 };
 
-const AvatarPickerWrapper = styled.div`
+const OuterWrapper = styled.div`
+  height: 100%;
+  width: 100%;
+  z-index: 0;
+`;
+
+const InnerWrapper = styled.div`
   margin: 1em;
+  z-index: 1;
 `;
 
 const AvatarWrapper = styled.div`
@@ -31,24 +38,24 @@ const PopoverWrapper = styled.div`
   position: absolute;
   left: 0;
   right: 0;
-  margin-top: -.5em;
+  padding-top: 9px;
   margin-left: auto;
   margin-right: auto;
-  z-index: 1;
-  width: 100%;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 280px;
 `;
 
 const Image = props => <img {...props} src={props.src} />;
 
-const Avatar = styled(Image)`
+const AvatarImage = styled(Image)`
   border-radius: 50%;
   height: 60px;
 `;
 
-class AvatarPicker extends Component {
+class SelectedAvatar extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
@@ -81,7 +88,15 @@ class AvatarPicker extends Component {
     });
   };
 
-  handleClick = isActive => {
+  handleOuterWrapperClick = e => {
+    console.log('clickable area');
+  };
+
+  handleInnerWrapperClick = e => {
+    e.stopPropagation();
+  }
+
+  handleAvatarImageClick = (e, isActive) => {
     if (isActive) {
       this.setState({
         isActive: false,
@@ -107,28 +122,33 @@ class AvatarPicker extends Component {
     } = this.state;
     const { availableAvatars } = this.props;
     return (
-      <AvatarPickerWrapper>
-        <AvatarWrapper>
-          <Avatar
-            style={this.getAvatarStyle(isHovered, isActive)}
-            onMouseEnter={this.handleMouseEnter}
-            onMouseLeave={this.handleMouseLeave}
-            onClick={() => this.handleClick(isActive)}
-            src={avatarImages[selectedAvatarId]}
-          />
-        </AvatarWrapper>
-        <PopoverWrapper>
-          <PopoverAnimation
-            show={showPopoverAnimation}
-            hide={hidePopoverAnimation}
-          />
-        </PopoverWrapper>
-      </AvatarPickerWrapper>
+      <OuterWrapper
+        onClick={(e) => this.handleOuterWrapperClick(e)}
+      >
+        <InnerWrapper onClick={(e) => this.handleInnerWrapperClick(e)}>
+          <AvatarWrapper>
+            <AvatarImage
+              style={this.getAvatarStyle(isHovered, isActive)}
+              onMouseEnter={this.handleMouseEnter}
+              onMouseLeave={this.handleMouseLeave}
+              onClick={(e) => this.handleAvatarImageClick(e, isActive)}
+              src={avatarImages[selectedAvatarId]}
+            />
+          </AvatarWrapper>
+          <PopoverWrapper>
+            <Popover
+              availableAvatars={availableAvatars}
+              show={showPopoverAnimation}
+              hide={hidePopoverAnimation}
+            />
+          </PopoverWrapper>
+        </InnerWrapper>
+      </OuterWrapper>
     );
   }
 }
 
-AvatarPicker.propTypes = {
+SelectedAvatar.propTypes = {
   availableAvatars: PropTypes.arrayOf(PropTypes.shape({
     src: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
@@ -136,4 +156,4 @@ AvatarPicker.propTypes = {
   })).isRequired,
 };
 
-export default AvatarPicker;
+export default SelectedAvatar;
