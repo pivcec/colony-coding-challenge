@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import Popover from './Popover';
+import PopoverAnimation from './PopoverAnimation';
 import avatar1 from '../images/avatar1.png';
 import avatar2 from '../images/avatar2.png';
 import avatar3 from '../images/avatar3.png';
 import avatar4 from '../images/avatar4.png';
 import avatar5 from '../images/avatar5.png';
 import avatar6 from '../images/avatar6.png';
+import availableAvatars from '../data/availableAvatars.js';
 
 const avatarImages = {
   1: avatar1,
@@ -21,31 +21,21 @@ const avatarImages = {
 const OuterWrapper = styled.div`
   height: 100%;
   width: 100%;
-  z-index: 0;
-`;
-
-const InnerWrapper = styled.div`
-  margin: 1em;
-  z-index: 1;
 `;
 
 const AvatarWrapper = styled.div`
-  display: flex;
-  justify-content: center;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  margin-top: 10px;
 `;
 
 const PopoverWrapper = styled.div`
-  position: absolute;
-  left: 0;
-  right: 0;
-  padding-top: 9px;
-  margin-left: auto;
-  margin-right: auto;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 280px;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  margin-top: 85px;
 `;
 
 const Image = props => <img {...props} src={props.src} />;
@@ -120,12 +110,11 @@ class SelectedAvatar extends Component {
       showPopoverAnimation,
       hidePopoverAnimation,
     } = this.state;
-    const { availableAvatars } = this.props;
     return (
       <OuterWrapper
         onClick={(e) => this.handleOuterWrapperClick(e)}
       >
-        <InnerWrapper onClick={(e) => this.handleInnerWrapperClick(e)}>
+        <div onClick={(e) => this.handleInnerWrapperClick(e)}>
           <AvatarWrapper>
             <AvatarImage
               style={this.getAvatarStyle(isHovered, isActive)}
@@ -136,24 +125,16 @@ class SelectedAvatar extends Component {
             />
           </AvatarWrapper>
           <PopoverWrapper>
-            <Popover
+            <PopoverAnimation
               availableAvatars={availableAvatars}
               show={showPopoverAnimation}
               hide={hidePopoverAnimation}
             />
           </PopoverWrapper>
-        </InnerWrapper>
+        </div>
       </OuterWrapper>
     );
   }
 }
-
-SelectedAvatar.propTypes = {
-  availableAvatars: PropTypes.arrayOf(PropTypes.shape({
-    src: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired,
-  })).isRequired,
-};
 
 export default SelectedAvatar;

@@ -1,12 +1,55 @@
 body, html {
-  height: 100%; }
+  height: 100%;
+}
 
 #root, #root > div, .content {
-  height: 100%; }
-
-.test {
   height: 100%;
-  width: 100%;
-  background-color: red;
-  z-index: 0;  
+}
+
+.pieContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pieBackground {
+  background-color: grey;
+  position: absolute;
+  width: 66px;
+  height: 66px;
+  border-radius: 50px;
+}
+
+.pie {
+  position: absolute;
+  width: 66px;
+  height: 66px;
+  border-radius: 33px;
+  clip: rect(0px, 33px, 66px, 0px);
+}
+
+.hold {
+  position: absolute;
+  width: 66px;
+  height: 66px;
+  border-radius: 33px;
+  clip: rect(0px, 66px, 66px, 33px);
+  animation-name: spin;
+  animation-duration: 4000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;   
+}
+
+.pieSlice1, .pie {
+  background-color: #1b458b;
+  transform:rotate(50deg);
+}
+
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
 }

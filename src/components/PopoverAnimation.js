@@ -70,42 +70,33 @@ const HidePopoverAnimation = styled.div`
   }
 `;
 
-class Popover extends Component {
-  render() {
-    const { show, hide, availableAvatars } = this.props;
-    if (show) {
-      return (
-        <ShowPopoverAnimation
-          className="popover-animation"
-        >
-          <PopoverContent
-            availableAvatars={availableAvatars}
-          />
-        </ShowPopoverAnimation>
-      );
-    } else if (hide) {
-      return (
-        <HidePopoverAnimation
-          className="popover-animation"
-        >
-          <PopoverContent
-            availableAvatars={availableAvatars}
-          />
-        </HidePopoverAnimation>
-      );
-    }
-    return null;
+
+
+const PopoverAnimation = (props) => {
+  const { show, hide, availableAvatars } = props;
+  if (show) {
+    return (
+      <ShowPopoverAnimation
+        className="popover-animation"
+      >
+        <PopoverContent />
+      </ShowPopoverAnimation>
+    );
+  } else if (hide) {
+    return (
+      <HidePopoverAnimation
+        className="popover-animation"
+      >
+        <PopoverContent />
+      </HidePopoverAnimation>
+    );
   }
+  return null;
 }
 
-Popover.propTypes = {
-  availableAvatars: PropTypes.arrayOf(PropTypes.shape({
-    src: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired,
-  })).isRequired,
+PopoverAnimation.propTypes = {
   show: PropTypes.bool.isRequired,
   hide: PropTypes.bool.isRequired,
 };
 
-export default Popover;
+export default PopoverAnimation;

@@ -1,25 +1,11 @@
 import React, { Component } from 'react';
-import '../css/App.css';
 import SelectedAvatar from './SelectedAvatar';
-import styled from 'styled-components';
+import '../css/App.css';
 
-const availableAvatars = [
-  { src: 'avatar1.png', label: 'Avatar 1', id: 1 },
-  { src: 'avatar2.png', label: 'Avatar 2', id: 2 },
-  { src: 'avatar3.png', label: 'Avatar 3', id: 3 },
-  { src: 'avatar4.png', label: 'Avatar 4', id: 4 },
-  { src: 'avatar5.png', label: 'Avatar 5', id: 5 },
-  { src: 'avatar6.png', label: 'Avatar 6', id: 6 },
-];
-
-class App extends Component {
-  render() {
-    return (
-      <SelectedAvatar
-        availableAvatars={availableAvatars}
-      />
-    );
-  }
+const App = (props) => {
+  return (
+    <SelectedAvatar />
+  );
 }
 
 export default App;
