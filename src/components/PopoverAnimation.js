@@ -70,16 +70,21 @@ const HidePopoverAnimation = styled.div`
   }
 `;
 
-
-
 const PopoverAnimation = (props) => {
-  const { show, hide, availableAvatars } = props;
+  const {
+    show,
+    hide,
+    availableAvatars,
+    updateSelectedAvatarId,
+  } = props;
   if (show) {
     return (
       <ShowPopoverAnimation
         className="popover-animation"
       >
-        <PopoverContent />
+        <PopoverContent
+          updateSelectedAvatarId={(id) => updateSelectedAvatarId(id)}
+        />
       </ShowPopoverAnimation>
     );
   } else if (hide) {
@@ -87,7 +92,9 @@ const PopoverAnimation = (props) => {
       <HidePopoverAnimation
         className="popover-animation"
       >
-        <PopoverContent />
+        <PopoverContent
+          updateSelectedAvatarId={(id) => updateSelectedAvatarId(id)}
+        />
       </HidePopoverAnimation>
     );
   }
@@ -95,6 +102,7 @@ const PopoverAnimation = (props) => {
 }
 
 PopoverAnimation.propTypes = {
+  updateSelectedAvatarId: PropTypes.func.isRequired,
   show: PropTypes.bool.isRequired,
   hide: PropTypes.bool.isRequired,
 };

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Avatar from './Avatar';
 import availableAvatars from '../data/availableAvatars';
@@ -20,23 +21,34 @@ const AvatarItem = styled.li`
 `;
 
 class PopoverContent extends Component {
-  getIndividualAvatar = id => (
+  getIndividualAvatar = (id, updateSelectedAvatarId) => (
     <AvatarItem
       key={id}
     >
       <Avatar
         id={id}
+        updateSelectedAvatarId={(id) => updateSelectedAvatarId(id)}
       />
     </AvatarItem>
   );
 
   render() {
+    const { updateSelectedAvatarId } = this.props;
     return (
       <AvatarList>
-        {availableAvatars.map((availableAvatar) => this.getIndividualAvatar(availableAvatar.id))}
+        {availableAvatars.map((availableAvatar) =>
+          this.getIndividualAvatar(
+            availableAvatar.id,
+            updateSelectedAvatarId,
+          ))
+        }
       </AvatarList>
     );
   }
 }
+
+PopoverContent.propTypes = {
+  updateSelectedAvatarId: PropTypes.func.isRequired,
+};
 
 export default PopoverContent;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import debounce from 'lodash/debounce';
 import styled from 'styled-components';
 import PopoverAnimation from './PopoverAnimation';
 import avatar1 from '../images/avatar1.png';
@@ -57,6 +58,17 @@ class SelectedAvatar extends Component {
     };
   }
 
+  componentWillMount() {
+     this.debouncedUpdateSelectedAvatarId = debounce((id) => {
+       this.setState({
+         selectedAvatarId: id,
+         isActive: false,
+         showPopoverAnimation: false,
+         hidePopoverAnimation: true,
+       });
+     }, 1000);
+  };
+
   getAvatarStyle = (isHovered, isActive) => {
     const avatarHoveredOrActiveStyle = { border: '1px solid rgb(155, 160, 163)' };
     const avatarNotHoveredOrActiveStyle = { border: '1px solid rgb(255, 255, 255)' };
@@ -79,7 +91,11 @@ class SelectedAvatar extends Component {
   };
 
   handleOuterWrapperClick = e => {
-    console.log('clickable area');
+    this.setState({
+      showPopoverAnimation: false,
+      hidePopoverAnimation: true,
+      isActive: false,
+    });
   };
 
   handleInnerWrapperClick = e => {
@@ -100,6 +116,10 @@ class SelectedAvatar extends Component {
         hidePopoverAnimation: false,
       });
     }
+  };
+
+  updateSelectedAvatarId = id => {
+    this.debouncedUpdateSelectedAvatarId(id);
   };
 
   render() {
@@ -129,6 +149,7 @@ class SelectedAvatar extends Component {
               availableAvatars={availableAvatars}
               show={showPopoverAnimation}
               hide={hidePopoverAnimation}
+              updateSelectedAvatarId={(id) => this.updateSelectedAvatarId(id)}
             />
           </PopoverWrapper>
         </div>

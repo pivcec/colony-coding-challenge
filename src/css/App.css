@@ -13,11 +13,11 @@ body, html {
 }
 
 .pieBackground {
-  background-color: grey;
+  background-color: rgb(122, 161, 178);
   position: absolute;
   width: 66px;
   height: 66px;
-  border-radius: 50px;
+  border-radius: 33px;
 }
 
 .pie {
@@ -33,15 +33,15 @@ body, html {
   width: 66px;
   height: 66px;
   border-radius: 33px;
-  clip: rect(0px, 66px, 66px, 33px);
+  clip: rect(0px, 66px, 66px, 16px);
   animation-name: spin;
-  animation-duration: 4000ms;
+  animation-duration: 1000ms;
   animation-iteration-count: infinite;
-  animation-timing-function: linear;   
+  animation-timing-function: linear;
 }
 
 .pieSlice1, .pie {
-  background-color: #1b458b;
+  background-color: rgb(44, 48, 51);
   transform:rotate(50deg);
 }
 

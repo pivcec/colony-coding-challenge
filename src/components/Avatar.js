@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import avatar1 from '../images/avatar1.png';
 import avatar2 from '../images/avatar2.png';
 import avatar3 from '../images/avatar3.png';
@@ -60,12 +60,13 @@ class Avatar extends Component {
     return null;
   };
 
-  handleAvatarImageClick = (isActive) => {
+  handleAvatarImageClick = (isActive, id, updateSelectedAvatarId) => {
     if (isActive) {
       this.setState({
         isActive: false,
       });
     } else {
+      updateSelectedAvatarId(id);
       this.setState({
         isActive: true,
       });
@@ -74,7 +75,7 @@ class Avatar extends Component {
 
   render() {
     const { isHovered, isActive } = this.state;
-    const { id } = this.props;
+    const { id, updateSelectedAvatarId } = this.props;
     if (isActive) {
       return (
         <div className="pieContainer">
@@ -96,23 +97,15 @@ class Avatar extends Component {
         style={this.getAvatarImageStyle(isHovered, isActive)}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
-        onClick={() => this.handleAvatarImageClick(isActive)}
+        onClick={() => this.handleAvatarImageClick(isActive, id, updateSelectedAvatarId)}
         src={avatarImages[id]} />
     );
   }
 }
 
-/*
-<AvatarImage
-  style={this.getAvatarImageStyle(isHovered, isActive)}
-  onMouseEnter={this.handleMouseEnter}
-  onMouseLeave={this.handleMouseLeave}
-  onClick={() => this.handleAvatarImageClick(isActive)}
-  src={avatarImages[id]} />
-  */
-
 Avatar.propTypes = {
   id: PropTypes.number.isRequired,
+  updateSelectedAvatarId: PropTypes.func.isRequired,
 };
 
 export default Avatar
