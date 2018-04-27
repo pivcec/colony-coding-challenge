@@ -8,7 +8,7 @@ import avatar3 from '../images/avatar3.png';
 import avatar4 from '../images/avatar4.png';
 import avatar5 from '../images/avatar5.png';
 import avatar6 from '../images/avatar6.png';
-import availableAvatars from '../data/availableAvatars.js';
+import availableAvatars from '../data/availableAvatars';
 
 const avatarImages = {
   1: avatar1,
@@ -19,7 +19,7 @@ const avatarImages = {
   6: avatar6,
 };
 
-const OuterWrapper = styled.div`
+export const OuterWrapper = styled.div`
   height: 100%;
   width: 100%;
 `;
@@ -32,16 +32,16 @@ const AvatarWrapper = styled.div`
 `;
 
 const PopoverWrapper = styled.div`
-  width: 280px;
+  width: 324px;
   position: absolute;
   left: 50%;
   transform: translate(-50%, 0);
   margin-top: 85px;
 `;
 
-const Image = props => <img {...props} src={props.src} />;
+const Image = props => <img {...props} src={props.src} alt={props.alt} />;
 
-const AvatarImage = styled(Image)`
+export const AvatarImage = styled(Image)`
   border-radius: 50%;
   height: 60px;
 `;
@@ -50,26 +50,32 @@ class SelectedAvatar extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      selectedAvatarId: 1,
-      isHovered: false,
-      isActive: false,
-      showPopoverAnimation: false,
+      activeAvatarId: null,
       hidePopoverAnimation: false,
+      hoveredAvatarId: null,
+      isActive: false,
+      isHovered: false,
+      selectedAvatarId: 1,
+      showPopoverAnimation: false,
     };
   }
 
-  componentWillMount() {
-     this.debouncedUpdateSelectedAvatarId = debounce((id) => {
-       this.setState({
-         selectedAvatarId: id,
-         isActive: false,
-         showPopoverAnimation: false,
-         hidePopoverAnimation: true,
-       });
-     }, 1000);
-  };
+  componentDidMount() {
+    window.addEventListener('keydown', this.handleKeyDown);
+    this.debouncedUpdateSelectedAvatarId = debounce((id) => {
+      this.setState({
+        activeAvatarId: null,
+        hidePopoverAnimation: true,
+        hoveredAvatarId: null,
+        isActive: false,
+        isHovered: false,
+        selectedAvatarId: id,
+        showPopoverAnimation: false,
+      });
+    }, 1000);
+  }
 
-  getAvatarStyle = (isHovered, isActive) => {
+  getAvatarStyle = (isActive, isHovered) => {
     const avatarHoveredOrActiveStyle = { border: '1px solid rgb(155, 160, 163)' };
     const avatarNotHoveredOrActiveStyle = { border: '1px solid rgb(255, 255, 255)' };
     if (isHovered || isActive) {
@@ -78,11 +84,10 @@ class SelectedAvatar extends Component {
     return avatarNotHoveredOrActiveStyle;
   };
 
-  handleMouseEnter = () => {
-    this.setState({
-      isHovered: true,
-    });
-  };
+  getAlt = id => {
+    const avatar = availableAvatars.find(availableAvatar => availableAvatar.id === id);
+    return avatar ? avatar.label : undefined;
+  }
 
   handleMouseLeave = () => {
     this.setState({
@@ -90,40 +95,115 @@ class SelectedAvatar extends Component {
     });
   };
 
-  handleOuterWrapperClick = e => {
+  handleMouseEnter = () => {
     this.setState({
-      showPopoverAnimation: false,
-      hidePopoverAnimation: true,
-      isActive: false,
+      isHovered: true,
     });
+  };
+
+  handleOuterWrapperClick = isActive => {
+    if (isActive) {
+      this.setState({
+        hidePopoverAnimation: true,
+        hoveredAvatarId: null,
+        isActive: false,
+        showPopoverAnimation: false,
+      });
+    }
   };
 
   handleInnerWrapperClick = e => {
     e.stopPropagation();
   }
 
-  handleAvatarImageClick = (e, isActive) => {
+  handleAvatarImageClick = (isActive) => {
     if (isActive) {
       this.setState({
+        hidePopoverAnimation: true,
+        hoveredAvatarId: null,
         isActive: false,
         showPopoverAnimation: false,
-        hidePopoverAnimation: true,
       });
     } else {
+      this.setState({
+        hidePopoverAnimation: false,
+        isActive: true,
+        showPopoverAnimation: true,
+      });
+    }
+  };
+
+  updateSelectedAvatarId = id => {
+    this.setState({
+      activeAvatarId: id,
+    });
+    this.debouncedUpdateSelectedAvatarId(id);
+  };
+
+  updateHoveredAvatarId = id => {
+    this.setState({
+      hoveredAvatarId: id,
+    });
+  };
+
+  handleKeyDown = e => {
+    const {
+      hoveredAvatarId,
+      isActive,
+      isHovered,
+      selectedAvatarId,
+    } = this.state;
+    const totalNumberOfAvatars = ('length', Object.keys(avatarImages).length);
+    if (e.code === 'Space' && isHovered === false) {
+      this.setState({
+        isHovered: true,
+      });
+    }
+    if (e.code === 'Space' && isHovered === true) {
+      this.setState({
+        isHovered: false,
+      });
+    }
+    if (e.code === 'Enter' && isHovered === true) {
       this.setState({
         isActive: true,
         showPopoverAnimation: true,
         hidePopoverAnimation: false,
       });
     }
-  };
-
-  updateSelectedAvatarId = id => {
-    this.debouncedUpdateSelectedAvatarId(id);
-  };
+    if (e.code === 'Space' && isActive === true) {
+      let newHoveredAvatarId = hoveredAvatarId + 1;
+      if (selectedAvatarId === newHoveredAvatarId) {
+        newHoveredAvatarId = newHoveredAvatarId + 1;
+      }
+      if (newHoveredAvatarId > totalNumberOfAvatars) {
+        newHoveredAvatarId = 1;
+      }
+      this.setState({
+        hoveredAvatarId: newHoveredAvatarId,
+      });
+    }
+    if (e.code === 'Enter' && isActive === true) {
+      this.setState({
+        activeAvatarId: hoveredAvatarId,
+      });
+      if (hoveredAvatarId !== null) {
+        this.updateSelectedAvatarId(hoveredAvatarId);
+      }
+    }
+    if (e.code === 'Escape' && isActive === true) {
+      this.setState({
+        isActive: false,
+        showPopoverAnimation: false,
+        hidePopoverAnimation: true,
+      });
+    }
+  }
 
   render() {
     const {
+      activeAvatarId,
+      hoveredAvatarId,
       selectedAvatarId,
       isHovered,
       isActive,
@@ -132,24 +212,31 @@ class SelectedAvatar extends Component {
     } = this.state;
     return (
       <OuterWrapper
-        onClick={(e) => this.handleOuterWrapperClick(e)}
+        onClick={() => this.handleOuterWrapperClick(isActive)}
       >
-        <div onClick={(e) => this.handleInnerWrapperClick(e)}>
+        <div
+          className="inner-wrapper"
+          onClick={e => this.handleInnerWrapperClick(e)}
+        >
           <AvatarWrapper>
             <AvatarImage
-              style={this.getAvatarStyle(isHovered, isActive)}
+              alt={this.getAlt(selectedAvatarId)}
+              onClick={() => this.handleAvatarImageClick(isActive)}
               onMouseEnter={this.handleMouseEnter}
               onMouseLeave={this.handleMouseLeave}
-              onClick={(e) => this.handleAvatarImageClick(e, isActive)}
               src={avatarImages[selectedAvatarId]}
+              style={this.getAvatarStyle(isActive, isHovered)}
             />
           </AvatarWrapper>
           <PopoverWrapper>
             <PopoverAnimation
-              availableAvatars={availableAvatars}
-              show={showPopoverAnimation}
+              activeAvatarId={activeAvatarId}
               hide={hidePopoverAnimation}
-              updateSelectedAvatarId={(id) => this.updateSelectedAvatarId(id)}
+              hoveredAvatarId={hoveredAvatarId}
+              selectedAvatarId={selectedAvatarId}
+              show={showPopoverAnimation}
+              updateHoveredAvatarId={id => this.updateHoveredAvatarId(id)}
+              updateSelectedAvatarId={id => this.updateSelectedAvatarId(id)}
             />
           </PopoverWrapper>
         </div>

@@ -4,50 +4,90 @@ import styled from 'styled-components';
 import Avatar from './Avatar';
 import availableAvatars from '../data/availableAvatars';
 
-const AvatarList = styled.ul`
+export const Header = styled.h1`
+  color: rgb(249, 249, 249);
+  font-size: 16px;
+  margin: 14px 0;
+  font-family: 'Source Sans Pro', sans-serif;
+  text-align: center;
+`;
+
+export const AvatarList = styled.ul`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   padding: 0;
+  margin: 0px;
 `;
 
 const AvatarItem = styled.li`
   list-style-type: none;
-  height: 70px;
-  width: 70px;
+  height: 60px;
+  width: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 7px;
 `;
 
 class PopoverContent extends Component {
-  getIndividualAvatar = (id, updateSelectedAvatarId) => (
+  getIndividualAvatar = (
+    activeAvatarId,
+    hoveredAvatarId,
+    id,
+    selectedAvatarId,
+    updateHoveredAvatarId,
+    updateSelectedAvatarId,
+  ) => (
     <AvatarItem
       key={id}
     >
       <Avatar
+        activeAvatarId={activeAvatarId}
+        hoveredAvatarId={hoveredAvatarId}
         id={id}
-        updateSelectedAvatarId={(id) => updateSelectedAvatarId(id)}
+        selectedAvatarId={selectedAvatarId}
+        updateHoveredAvatarId={id => updateHoveredAvatarId(id)}
+        updateSelectedAvatarId={id => updateSelectedAvatarId(id)}
       />
     </AvatarItem>
   );
 
   render() {
-    const { updateSelectedAvatarId } = this.props;
+    const {
+      activeAvatarId,
+      hoveredAvatarId,
+      selectedAvatarId,
+      updateHoveredAvatarId,
+      updateSelectedAvatarId,
+    } = this.props;
     return (
-      <AvatarList>
-        {availableAvatars.map((availableAvatar) =>
-          this.getIndividualAvatar(
-            availableAvatar.id,
-            updateSelectedAvatarId,
-          ))
-        }
-      </AvatarList>
+      <div className="popover-content">
+        <Header>
+          Choose your avatar
+        </Header>
+        <AvatarList>
+          {availableAvatars.map((availableAvatar) =>
+            this.getIndividualAvatar(
+              activeAvatarId,
+              hoveredAvatarId,
+              availableAvatar.id,
+              selectedAvatarId,
+              updateHoveredAvatarId,
+              updateSelectedAvatarId,
+            ))
+          }
+        </AvatarList>
+      </div>
     );
   }
 }
 
 PopoverContent.propTypes = {
+  activeAvatarId: PropTypes.number,
+  hoveredAvatarId: PropTypes.number,
+  selectedAvatarId: PropTypes.number.isRequired,
+  updateHoveredAvatarId: PropTypes.func.isRequired,
   updateSelectedAvatarId: PropTypes.func.isRequired,
 };
 

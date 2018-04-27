@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { keyframes } from 'styled-components';
 import PopoverContent from './PopoverContent';
@@ -15,19 +15,13 @@ const createBox = keyframes`
   }
 `;
 
-const ShowPopoverAnimation = styled.div`
-  display: flex;
-  flex-direction: column;
-  border-radius: 2px;
-  drop shadow: color: rgb(102, 102, 102), size 2px, blur 10px
-  padding: 14px;
-  background-color: rgb(44, 48, 51);
+export const ShowPopoverAnimation = styled.div`
   animation: ${createBox} 0.5s;
   transform: scale(1);
   &:before {
     content:'\\A';
     position: absolute;
-    margin-top: -8px;
+    margin-top: -22px;
     align-self: center;
     width: 0;
     height: 0;
@@ -47,19 +41,13 @@ const destroyBox = keyframes`
   }
 `;
 
-const HidePopoverAnimation = styled.div`
-  display: flex;
-  flex-direction: column;
-  border-radius: 2px;
-  drop shadow: color: rgb(102, 102, 102), size 2px, blur 10px
-  padding: 14px;
-  background-color: rgb(44, 48, 51);
+export const HidePopoverAnimation = styled.div`
   animation: ${destroyBox} 0.5s;
   transform: scale(0);
   &:before {
     content:'\\A';
     position: absolute;
-    margin-top: -8px;
+    margin-top: -22px;
     align-self: center;
     width: 0;
     height: 0;
@@ -72,39 +60,64 @@ const HidePopoverAnimation = styled.div`
 
 const PopoverAnimation = (props) => {
   const {
-    show,
+    activeAvatarId,
     hide,
-    availableAvatars,
+    hoveredAvatarId,
+    selectedAvatarId,
+    show,
+    updateHoveredAvatarId,
     updateSelectedAvatarId,
   } = props;
+
+  const popOverAnimationStyle = {
+    backgroundColor: 'rgb(44, 48, 51)',
+    borderRadius: '2px',
+    display: 'flex',
+    filter: 'drop-shadow(0px 0px 10px rgb(102, 102, 102))',
+    flexDirection: 'column',
+    padding: '14px',
+  };
+
   if (show) {
     return (
       <ShowPopoverAnimation
-        className="popover-animation"
+        style={popOverAnimationStyle}
       >
         <PopoverContent
-          updateSelectedAvatarId={(id) => updateSelectedAvatarId(id)}
+          activeAvatarId={activeAvatarId}
+          hoveredAvatarId={hoveredAvatarId}
+          selectedAvatarId={selectedAvatarId}
+          updateHoveredAvatarId={id => updateHoveredAvatarId(id)}
+          updateSelectedAvatarId={id => updateSelectedAvatarId(id)}
         />
       </ShowPopoverAnimation>
     );
   } else if (hide) {
     return (
       <HidePopoverAnimation
-        className="popover-animation"
+        style={popOverAnimationStyle}
       >
         <PopoverContent
-          updateSelectedAvatarId={(id) => updateSelectedAvatarId(id)}
+          activeAvatarId={activeAvatarId}
+          hoveredAvatarId={hoveredAvatarId}
+          selectedAvatarId={selectedAvatarId}
+          updateHoveredAvatarId={id => updateHoveredAvatarId(id)}
+          updateSelectedAvatarId={id => updateSelectedAvatarId(id)}
         />
       </HidePopoverAnimation>
     );
   }
   return null;
-}
+};
 
 PopoverAnimation.propTypes = {
-  updateSelectedAvatarId: PropTypes.func.isRequired,
-  show: PropTypes.bool.isRequired,
+  activeAvatarId: PropTypes.number,
   hide: PropTypes.bool.isRequired,
+  hoveredAvatarId: PropTypes.number,
+  selectedAvatarId: PropTypes.number.isRequired,
+  show: PropTypes.bool.isRequired,
+  updateHoveredAvatarId: PropTypes.func.isRequired,
+  updateSelectedAvatarId: PropTypes.func.isRequired,
 };
 
 export default PopoverAnimation;
