@@ -47,8 +47,8 @@ class PopoverContent extends Component {
         hoveredAvatarId={hoveredAvatarId}
         id={id}
         selectedAvatarId={selectedAvatarId}
-        updateHoveredAvatarId={id => updateHoveredAvatarId(id)}
-        updateSelectedAvatarId={id => updateSelectedAvatarId(id)}
+        updateHoveredAvatarId={() => updateHoveredAvatarId(id)}
+        updateSelectedAvatarId={() => updateSelectedAvatarId(id)}
       />
     </AvatarItem>
   );
@@ -67,7 +67,7 @@ class PopoverContent extends Component {
           Choose your avatar
         </Header>
         <AvatarList>
-          {availableAvatars.map((availableAvatar) =>
+          {availableAvatars.map(availableAvatar =>
             this.getIndividualAvatar(
               activeAvatarId,
               hoveredAvatarId,
@@ -82,6 +82,11 @@ class PopoverContent extends Component {
     );
   }
 }
+
+PopoverContent.defaultProps = {
+  activeAvatarId: null,
+  hoveredAvatarId: null,
+};
 
 PopoverContent.propTypes = {
   activeAvatarId: PropTypes.number,

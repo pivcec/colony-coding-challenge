@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import SelectedAvatar, { AvatarImage, OuterWrapper } from '../components/SelectedAvatar';
@@ -12,7 +12,7 @@ describe('Renders...', () => {
     selectedAvatar.find(AvatarImage).simulate('click');
     const showPopoverAnimation = selectedAvatar.find(ShowPopoverAnimation);
     expect(showPopoverAnimation.instance()).toBeInstanceOf(ShowPopoverAnimation);
-  })
+  });
 
   it('Renders HidePopoverAnimation when SelectedAvatar is clicked twice', () => {
     const selectedAvatar = mount(<SelectedAvatar />);
@@ -20,7 +20,7 @@ describe('Renders...', () => {
     selectedAvatar.find(AvatarImage).simulate('click');
     const hidePopoverAnimation = selectedAvatar.find(HidePopoverAnimation);
     expect(hidePopoverAnimation.instance()).toBeInstanceOf(HidePopoverAnimation);
-  })
+  });
 
   it('Renders HidePopoverAnimation when SelectedAvatar is clicked once, and then OuterWrapper is clicked', () => {
     const selectedAvatar = mount(<SelectedAvatar />);
@@ -28,21 +28,21 @@ describe('Renders...', () => {
     selectedAvatar.find(OuterWrapper).simulate('click');
     const hidePopoverAnimation = selectedAvatar.find(HidePopoverAnimation);
     expect(hidePopoverAnimation.instance()).toBeInstanceOf(HidePopoverAnimation);
-  })
+  });
 
   it('Renders correct style when AvatarImage is clicked', () => {
     const selectedAvatar = mount(<SelectedAvatar />);
     selectedAvatar.find(AvatarImage).simulate('click');
     const avatarImageStyle = selectedAvatar.find(AvatarImage).prop('style');
     expect(avatarImageStyle).toHaveProperty('border', '1px solid rgb(155, 160, 163)');
-  })
+  });
 
   it('Renders correct style when AvatarImage is hovered', () => {
     const selectedAvatar = mount(<SelectedAvatar />);
     selectedAvatar.find(AvatarImage).simulate('mouseEnter');
     const avatarImageStyle = selectedAvatar.find(AvatarImage).prop('style');
     expect(avatarImageStyle).toHaveProperty('border', '1px solid rgb(155, 160, 163)');
-  })
+  });
 
   it('Renders correct style when AvatarImage hover is exited', () => {
     const selectedAvatar = mount(<SelectedAvatar />);
@@ -50,5 +50,5 @@ describe('Renders...', () => {
     selectedAvatar.find(AvatarImage).simulate('mouseLeave');
     const avatarImageStyle = selectedAvatar.find(AvatarImage).prop('style');
     expect(avatarImageStyle).toHaveProperty('border', '1px solid rgb(255, 255, 255)');
-  })
+  });
 });

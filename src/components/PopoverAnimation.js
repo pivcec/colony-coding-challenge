@@ -110,6 +110,11 @@ const PopoverAnimation = (props) => {
   return null;
 };
 
+PopoverAnimation.defaultProps = {
+  activeAvatarId: null,
+  hoveredAvatarId: null,
+};
+
 PopoverAnimation.propTypes = {
   activeAvatarId: PropTypes.number,
   hide: PropTypes.bool.isRequired,

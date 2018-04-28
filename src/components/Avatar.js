@@ -71,7 +71,7 @@ export const AvatarImage = styled(Image)`
 `;
 
 class Avatar extends Component {
-  getAlt = id => {
+  getAlt = (id) => {
     const avatar = availableAvatars.find(availableAvatar => availableAvatar.id === id);
     return avatar ? avatar.label : undefined;
   }
@@ -134,11 +134,6 @@ class Avatar extends Component {
           </div>
           <AvatarImage
             alt={this.getAlt(selectedAvatarId)}
-            onClick={() => this.handleAvatarImageClick(
-              activeAvatarId,
-              id,
-              updateSelectedAvatarId,
-            )}
             onMouseEnter={() => this.handleMouseEnter(id, updateHoveredAvatarId)}
             onMouseLeave={() => this.handleMouseLeave(null, updateHoveredAvatarId)}
             src={avatarImages[id]}
@@ -174,6 +169,11 @@ class Avatar extends Component {
   }
 }
 
+Avatar.defaultProps = {
+  activeAvatarId: null,
+  hoveredAvatarId: null,
+};
+
 Avatar.propTypes = {
   activeAvatarId: PropTypes.number,
   hoveredAvatarId: PropTypes.number,
@@ -181,6 +181,11 @@ Avatar.propTypes = {
   selectedAvatarId: PropTypes.number.isRequired,
   updateHoveredAvatarId: PropTypes.func.isRequired,
   updateSelectedAvatarId: PropTypes.func.isRequired,
+};
+
+Image.propTypes = {
+  src: PropTypes.string.isRequired,
+  alt: PropTypes.string.isRequired,
 };
 
 export default Avatar;

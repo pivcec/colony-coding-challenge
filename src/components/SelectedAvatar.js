@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import styled from 'styled-components';
 import PopoverAnimation from './PopoverAnimation';
@@ -84,7 +85,7 @@ class SelectedAvatar extends Component {
     return avatarNotHoveredOrActiveStyle;
   };
 
-  getAlt = id => {
+  getAlt = (id) => {
     const avatar = availableAvatars.find(availableAvatar => availableAvatar.id === id);
     return avatar ? avatar.label : undefined;
   }
@@ -101,7 +102,7 @@ class SelectedAvatar extends Component {
     });
   };
 
-  handleOuterWrapperClick = isActive => {
+  handleOuterWrapperClick = (isActive) => {
     if (isActive) {
       this.setState({
         hidePopoverAnimation: true,
@@ -112,7 +113,7 @@ class SelectedAvatar extends Component {
     }
   };
 
-  handleInnerWrapperClick = e => {
+  handleInnerWrapperClick = (e) => {
     e.stopPropagation();
   }
 
@@ -133,20 +134,20 @@ class SelectedAvatar extends Component {
     }
   };
 
-  updateSelectedAvatarId = id => {
+  updateSelectedAvatarId = (id) => {
     this.setState({
       activeAvatarId: id,
     });
     this.debouncedUpdateSelectedAvatarId(id);
   };
 
-  updateHoveredAvatarId = id => {
+  updateHoveredAvatarId = (id) => {
     this.setState({
       hoveredAvatarId: id,
     });
   };
 
-  handleKeyDown = e => {
+  handleKeyDown = (e) => {
     const {
       hoveredAvatarId,
       isActive,
@@ -244,5 +245,10 @@ class SelectedAvatar extends Component {
     );
   }
 }
+
+Image.propTypes = {
+  src: PropTypes.string.isRequired,
+  alt: PropTypes.string.isRequired,
+};
 
 export default SelectedAvatar;
