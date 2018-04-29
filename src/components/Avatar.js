@@ -65,6 +65,24 @@ export const PieWrapper = styled.div`
 
 const Image = props => <img {...props} src={props.src} alt={props.alt} />;
 
+const IsHoveredIsNotSelectedWrapper = styled.div`
+  display: block;
+  position: relative;
+  &:after {
+    position: absolute;
+    background: rgb(122, 161, 178);
+    top: 0;
+    left: 0;
+    content: '';
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    opacity: 0.2;
+    margin-top: 3px;
+    margin-left: 3px;
+  }
+`;
+
 export const AvatarImage = styled(Image)`
   border-radius: 50%;
   height: 60px;
@@ -77,40 +95,18 @@ class Avatar extends Component {
     return avatar ? avatar.label : undefined;
   }
 
-  getAvatarImageStyle = (
-    activeAvatarId,
-    hoveredAvatarId,
-    id,
-    selectedAvatarId,
-  ) => {
-    const isNotSelectedIsHoveredIsNotActive = {
-      border: '3px solid rgb(155, 160, 163)',
-    };
-    const isSelected = {
-      border: '3px solid rgb(122, 161, 178)',
-    };
-    if (selectedAvatarId !== id && hoveredAvatarId === id && activeAvatarId !== id) {
-      return isNotSelectedIsHoveredIsNotActive;
+  getIsHovered = (hoveredAvatarId, id) => {
+    if (hoveredAvatarId === id) {
+      return true;
     }
-    if (selectedAvatarId === id) {
-      return isSelected;
-    }
-    return null;
-  };
+    return false;
+  }
 
-  getInactiveAvatarWrapperClassName = (
-    activeAvatarId,
-    hoveredAvatarId,
-    id,
-    selectedAvatarId,
-  ) => {
-    if (hoveredAvatarId === id && selectedAvatarId !== id) {
-      return 'is-hovered';
+  getIsSelected = (id, selectedAvatarId) => {
+    if (selectedAvatarId === id) {
+      return true;
     }
-    if (hoveredAvatarId !== id && selectedAvatarId !== id) {
-      return 'is-not-hovered';
-    }
-    return null;
+    return false;
   }
 
   handleMouseEnter = (id, updateHoveredAvatarId) => {
@@ -135,12 +131,20 @@ class Avatar extends Component {
   render() {
     const {
       activeAvatarId,
-      id,
       hoveredAvatarId,
+      id,
       selectedAvatarId,
       updateHoveredAvatarId,
       updateSelectedAvatarId,
     } = this.props;
+    const isHovered = this.getIsHovered(hoveredAvatarId, id);
+    const isSelected = this.getIsSelected(id, selectedAvatarId);
+    const isNotActiveIsHoveredIsNotSelectedStyles = {
+      border: '3px solid rgb(155, 160, 163)',
+    };
+    const isSelectedStyles = {
+      border: '3px solid rgb(122, 161, 178)',
+    };
     if (activeAvatarId === id) {
       return (
         <PieWrapper>
@@ -151,24 +155,12 @@ class Avatar extends Component {
           <AvatarImage
             alt={this.getAlt(selectedAvatarId)}
             src={avatarImages[id]}
-            style={this.getAvatarImageStyle(
-              activeAvatarId,
-              hoveredAvatarId,
-              id,
-              selectedAvatarId,
-            )}
           />
         </PieWrapper>
       );
     }
     return (
       <div
-        className={this.getInactiveAvatarWrapperClassName(
-          activeAvatarId,
-          hoveredAvatarId,
-          id,
-          selectedAvatarId,
-        )}
         onMouseEnter={() => this.handleMouseEnter(id, updateHoveredAvatarId)}
         onMouseLeave={() => this.handleMouseLeave(updateHoveredAvatarId)}
         onClick={() => this.handleAvatarWrapperClick(
@@ -178,16 +170,49 @@ class Avatar extends Component {
           updateSelectedAvatarId,
         )}
       >
-        <AvatarImage
-          alt={this.getAlt(selectedAvatarId)}
-          src={avatarImages[id]}
-          style={this.getAvatarImageStyle(
-            activeAvatarId,
-            hoveredAvatarId,
-            id,
-            selectedAvatarId,
-          )}
-        />
+        {isHovered &&
+          <div>
+            {isSelected &&
+              <div>
+                <AvatarImage
+                  alt={this.getAlt(selectedAvatarId)}
+                  src={avatarImages[id]}
+                  style={isSelectedStyles}
+                />
+              </div>
+            }
+            {!isSelected &&
+              <IsHoveredIsNotSelectedWrapper>
+                <AvatarImage
+                  alt={this.getAlt(selectedAvatarId)}
+                  src={avatarImages[id]}
+                  style={isNotActiveIsHoveredIsNotSelectedStyles}
+                />
+              </IsHoveredIsNotSelectedWrapper>
+            }
+          </div>
+        }
+        {!isHovered &&
+          <div>
+            {isSelected &&
+              <div>
+                <AvatarImage
+                  alt={this.getAlt(selectedAvatarId)}
+                  src={avatarImages[id]}
+                  style={isSelectedStyles}
+                />
+              </div>
+            }
+            {!isSelected &&
+              <div>
+                <AvatarImage
+                  alt={this.getAlt(selectedAvatarId)}
+                  src={avatarImages[id]}
+                />
+              </div>
+            }
+          </div>
+        }
       </div>
     );
   }
