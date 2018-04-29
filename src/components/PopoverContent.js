@@ -7,7 +7,7 @@ import availableAvatars from '../data/availableAvatars';
 export const Header = styled.h1`
   color: rgb(249, 249, 249);
   font-size: 16px;
-  margin: 14px 0;
+  margin: 10px 0;
   font-family: 'Source Sans Pro', sans-serif;
   text-align: center;
 `;

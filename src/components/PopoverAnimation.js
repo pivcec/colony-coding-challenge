@@ -21,7 +21,7 @@ export const ShowPopoverAnimation = styled.div`
   &:before {
     content:'\\A';
     position: absolute;
-    margin-top: -22px;
+    margin-top: -18px;
     align-self: center;
     width: 0;
     height: 0;
@@ -47,7 +47,7 @@ export const HidePopoverAnimation = styled.div`
   &:before {
     content:'\\A';
     position: absolute;
-    margin-top: -22px;
+    margin-top: -18px;
     align-self: center;
     width: 0;
     height: 0;
@@ -75,7 +75,7 @@ const PopoverAnimation = (props) => {
     display: 'flex',
     filter: 'drop-shadow(0px 0px 10px rgb(102, 102, 102))',
     flexDirection: 'column',
-    padding: '14px',
+    padding: '10px',
   };
 
   if (show) {

@@ -33,7 +33,7 @@ const AvatarWrapper = styled.div`
 `;
 
 const PopoverWrapper = styled.div`
-  width: 324px;
+  width: 316px;
   position: absolute;
   left: 50%;
   transform: translate(-50%, 0);
