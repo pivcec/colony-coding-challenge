@@ -83,6 +83,7 @@ const IsHoveredIsNotSelectedWrapper = styled.div`
   }
 `;
 
+// exported, empty styled component facilitates onClick tests
 export const AvatarImageWrapper = styled.div`
 `;
 
