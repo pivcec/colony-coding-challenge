@@ -134,11 +134,13 @@ class SelectedAvatar extends Component {
     }
   };
 
-  updateSelectedAvatarId = (id) => {
-    this.setState({
-      activeAvatarId: id,
-    });
-    this.debouncedUpdateSelectedAvatarId(id);
+  updateSelectedAvatarId = (id, selectedAvatarId) => {
+    if (id !== selectedAvatarId) {
+      this.setState({
+        activeAvatarId: id,
+      });
+      this.debouncedUpdateSelectedAvatarId(id);
+    }
   };
 
   updateHoveredAvatarId = (id) => {
@@ -236,8 +238,8 @@ class SelectedAvatar extends Component {
               hoveredAvatarId={hoveredAvatarId}
               selectedAvatarId={selectedAvatarId}
               show={showPopoverAnimation}
-              updateHoveredAvatarId={id => this.updateHoveredAvatarId(id)}
-              updateSelectedAvatarId={id => this.updateSelectedAvatarId(id)}
+              updateHoveredAvatarId={this.updateHoveredAvatarId}
+              updateSelectedAvatarId={this.updateSelectedAvatarId}
             />
           </PopoverWrapper>
         </div>

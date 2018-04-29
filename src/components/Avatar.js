@@ -31,6 +31,7 @@ export const PieWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: -4px;
   > .pie-background {
     background-color: rgb(122, 161, 178);
     position: absolute;
@@ -82,37 +83,52 @@ class Avatar extends Component {
     id,
     selectedAvatarId,
   ) => {
-    const isHoveredAndNotActiveStyle = {
+    const isNotSelectedIsHoveredIsNotActive = {
       border: '3px solid rgb(155, 160, 163)',
-      opacity: '0.8',
     };
-    const isSelectedAvatar = {
+    const isSelected = {
       border: '3px solid rgb(122, 161, 178)',
     };
-    if (hoveredAvatarId === id && activeAvatarId !== id) {
-      return isHoveredAndNotActiveStyle;
+    if (selectedAvatarId !== id && hoveredAvatarId === id && activeAvatarId !== id) {
+      return isNotSelectedIsHoveredIsNotActive;
     }
-    if (id === selectedAvatarId) {
-      return isSelectedAvatar;
+    if (selectedAvatarId === id) {
+      return isSelected;
     }
     return null;
   };
+
+  getInactiveAvatarWrapperClassName = (
+    activeAvatarId,
+    hoveredAvatarId,
+    id,
+    selectedAvatarId,
+  ) => {
+    if (hoveredAvatarId === id && selectedAvatarId !== id) {
+      return 'is-hovered';
+    }
+    if (hoveredAvatarId !== id && selectedAvatarId !== id) {
+      return 'is-not-hovered';
+    }
+    return null;
+  }
 
   handleMouseEnter = (id, updateHoveredAvatarId) => {
     updateHoveredAvatarId(id);
   };
 
-  handleMouseLeave = (id, updateHoveredAvatarId) => {
+  handleMouseLeave = (updateHoveredAvatarId) => {
     updateHoveredAvatarId(null);
   };
 
-  handleAvatarImageClick = (
+  handleAvatarWrapperClick = (
     activeAvatarId,
     id,
+    selectedAvatarId,
     updateSelectedAvatarId,
   ) => {
     if (activeAvatarId !== id) {
-      updateSelectedAvatarId(id);
+      updateSelectedAvatarId(id, selectedAvatarId);
     }
   };
 
@@ -134,8 +150,6 @@ class Avatar extends Component {
           </div>
           <AvatarImage
             alt={this.getAlt(selectedAvatarId)}
-            onMouseEnter={() => this.handleMouseEnter(id, updateHoveredAvatarId)}
-            onMouseLeave={() => this.handleMouseLeave(null, updateHoveredAvatarId)}
             src={avatarImages[id]}
             style={this.getAvatarImageStyle(
               activeAvatarId,
@@ -148,23 +162,33 @@ class Avatar extends Component {
       );
     }
     return (
-      <AvatarImage
-        alt={this.getAlt(selectedAvatarId)}
-        onClick={() => this.handleAvatarImageClick(
-          activeAvatarId,
-          id,
-          updateSelectedAvatarId,
-        )}
-        onMouseEnter={() => this.handleMouseEnter(id, updateHoveredAvatarId)}
-        onMouseLeave={() => this.handleMouseLeave(null, updateHoveredAvatarId)}
-        src={avatarImages[id]}
-        style={this.getAvatarImageStyle(
+      <div
+        className={this.getInactiveAvatarWrapperClassName(
           activeAvatarId,
           hoveredAvatarId,
           id,
           selectedAvatarId,
         )}
-      />
+        onMouseEnter={() => this.handleMouseEnter(id, updateHoveredAvatarId)}
+        onMouseLeave={() => this.handleMouseLeave(updateHoveredAvatarId)}
+        onClick={() => this.handleAvatarWrapperClick(
+          activeAvatarId,
+          id,
+          selectedAvatarId,
+          updateSelectedAvatarId,
+        )}
+      >
+        <AvatarImage
+          alt={this.getAlt(selectedAvatarId)}
+          src={avatarImages[id]}
+          style={this.getAvatarImageStyle(
+            activeAvatarId,
+            hoveredAvatarId,
+            id,
+            selectedAvatarId,
+          )}
+        />
+      </div>
     );
   }
 }

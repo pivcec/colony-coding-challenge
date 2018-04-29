@@ -22,12 +22,12 @@ export const AvatarList = styled.ul`
 
 const AvatarItem = styled.li`
   list-style-type: none;
-  height: 60px;
-  width: 60px;
+  height: 66px;
+  width: 66px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 7px;
+  margin: 4px;
 `;
 
 class PopoverContent extends Component {
@@ -47,8 +47,8 @@ class PopoverContent extends Component {
         hoveredAvatarId={hoveredAvatarId}
         id={id}
         selectedAvatarId={selectedAvatarId}
-        updateHoveredAvatarId={() => updateHoveredAvatarId(id)}
-        updateSelectedAvatarId={() => updateSelectedAvatarId(id)}
+        updateHoveredAvatarId={updateHoveredAvatarId}
+        updateSelectedAvatarId={updateSelectedAvatarId}
       />
     </AvatarItem>
   );

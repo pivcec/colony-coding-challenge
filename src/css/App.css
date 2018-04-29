@@ -6,4 +6,23 @@ body, html {
   height: 100%;
 }
 
+.is-hovered {
+  display: block;
+  position: relative;
+}
+
+.is-hovered:after {
+  position: absolute;
+  background: rgb(122, 161, 178);
+  top: 0;
+  left: 0;
+  content: '';
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  opacity: 0.2;
+  margin-top: 3px;
+  margin-left: 3px;
+}
+
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');

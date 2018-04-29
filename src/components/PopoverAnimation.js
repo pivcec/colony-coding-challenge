@@ -87,8 +87,8 @@ const PopoverAnimation = (props) => {
           activeAvatarId={activeAvatarId}
           hoveredAvatarId={hoveredAvatarId}
           selectedAvatarId={selectedAvatarId}
-          updateHoveredAvatarId={id => updateHoveredAvatarId(id)}
-          updateSelectedAvatarId={id => updateSelectedAvatarId(id)}
+          updateHoveredAvatarId={updateHoveredAvatarId}
+          updateSelectedAvatarId={updateSelectedAvatarId}
         />
       </ShowPopoverAnimation>
     );
@@ -101,8 +101,8 @@ const PopoverAnimation = (props) => {
           activeAvatarId={activeAvatarId}
           hoveredAvatarId={hoveredAvatarId}
           selectedAvatarId={selectedAvatarId}
-          updateHoveredAvatarId={id => updateHoveredAvatarId(id)}
-          updateSelectedAvatarId={id => updateSelectedAvatarId(id)}
+          updateHoveredAvatarId={updateHoveredAvatarId}
+          updateSelectedAvatarId={updateSelectedAvatarId}
         />
       </HidePopoverAnimation>
     );
