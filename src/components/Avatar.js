@@ -83,6 +83,9 @@ const IsHoveredIsNotSelectedWrapper = styled.div`
   }
 `;
 
+export const AvatarImageWrapper = styled.div`
+`;
+
 export const AvatarImage = styled(Image)`
   border-radius: 50%;
   height: 60px;
@@ -160,7 +163,7 @@ class Avatar extends Component {
       );
     }
     return (
-      <div
+      <AvatarImageWrapper
         onMouseEnter={() => this.handleMouseEnter(id, updateHoveredAvatarId)}
         onMouseLeave={() => this.handleMouseLeave(updateHoveredAvatarId)}
         onClick={() => this.handleAvatarWrapperClick(
@@ -175,7 +178,7 @@ class Avatar extends Component {
             {isSelected &&
               <div>
                 <AvatarImage
-                  alt={this.getAlt(selectedAvatarId)}
+                  alt={this.getAlt(id)}
                   src={avatarImages[id]}
                   style={isSelectedStyles}
                 />
@@ -184,7 +187,7 @@ class Avatar extends Component {
             {!isSelected &&
               <IsHoveredIsNotSelectedWrapper>
                 <AvatarImage
-                  alt={this.getAlt(selectedAvatarId)}
+                  alt={this.getAlt(id)}
                   src={avatarImages[id]}
                   style={isNotActiveIsHoveredIsNotSelectedStyles}
                 />
@@ -197,7 +200,7 @@ class Avatar extends Component {
             {isSelected &&
               <div>
                 <AvatarImage
-                  alt={this.getAlt(selectedAvatarId)}
+                  alt={this.getAlt(id)}
                   src={avatarImages[id]}
                   style={isSelectedStyles}
                 />
@@ -206,14 +209,14 @@ class Avatar extends Component {
             {!isSelected &&
               <div>
                 <AvatarImage
-                  alt={this.getAlt(selectedAvatarId)}
+                  alt={this.getAlt(id)}
                   src={avatarImages[id]}
                 />
               </div>
             }
           </div>
         }
-      </div>
+      </AvatarImageWrapper>
     );
   }
 }

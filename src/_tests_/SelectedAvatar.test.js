@@ -3,6 +3,7 @@ import Enzyme, { mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import SelectedAvatar, { AvatarImage, OuterWrapper } from '../components/SelectedAvatar';
 import { ShowPopoverAnimation, HidePopoverAnimation } from '../components/PopoverAnimation';
+import { AvatarImageWrapper } from '../components/Avatar';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -51,4 +52,21 @@ describe('Renders...', () => {
     const avatarImageStyle = selectedAvatar.find(AvatarImage).prop('style');
     expect(avatarImageStyle).toHaveProperty('border', '1px solid rgb(255, 255, 255)');
   });
+
+  it('Renders correct SelectedAvatar after new avatar is selected', done => {
+      const selectedAvatar = mount(<SelectedAvatar />);
+      selectedAvatar.find(AvatarImage).simulate('click');
+      const avatarImageWrapper = selectedAvatar.find(AvatarImageWrapper).at(3);
+      avatarImageWrapper.simulate('click');
+      const mockTimer = done => {
+        setTimeout(
+          function() {
+            selectedAvatar.update();
+            const selectedAvatarAlt = selectedAvatar.find(AvatarImage).prop('alt');
+            expect(selectedAvatarAlt).toEqual('Avatar 4');
+            done();
+          }, 1500);
+      };
+      mockTimer(done);
+    });
 });

@@ -25,9 +25,9 @@ describe('Renders...', () => {
     const updateHoveredAvatarId = jest.fn();
     const updateSelectedAvatarId = jest.fn();
     const avatar = mount(<Avatar
-      activeAvatarId={1}
+      activeAvatarId={null}
       hoveredAvatarId={null}
-      id={3}
+      id={1}
       selectedAvatarId={2}
       updateHoveredAvatarId={() => updateHoveredAvatarId()}
       updateSelectedAvatarId={() => updateSelectedAvatarId()}
