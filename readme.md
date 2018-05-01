@@ -75,19 +75,6 @@ The user clicks on the avatar to open a popover which allows the user to choose 
 
 * A suite of unit tests written for this component using your favourite testing toolchain
 
-### How to submit your results:
-
-* The results have to be shared as a git repository
-* You can either create a private repository on your favourite git hosting provider (github, gitlab, bitbucket) and then give access to
-  * chris@colony.io
-  * raul@colony.io
-* Or create a public repository and send the link to both of these email addresses
-* Or send the whole repository, zipped (including the `.git` directory) to both of these email addresses
-* Important note: please only submit your work when it is completely done!
-
-Happy coding! :heart:
-
-
 ### Attributions
 
 * Avatar icons by <a href="http://www.freepik.com/free-photos-vectors/people">Freepik</a>
